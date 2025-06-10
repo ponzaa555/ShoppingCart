@@ -1,10 +1,8 @@
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
+
+using Core.Entities;
+using Infrastructure.Data;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
+using Microsoft.EntityFrameworkCore;
 
 namespace API.Controllers
 {
@@ -12,21 +10,25 @@ namespace API.Controllers
     [Route("api/[controller]")]
     public class ProductController : ControllerBase
     {
+        private readonly StoreContext _context;
         private readonly ILogger<ProductController> _logger;
 
-        public ProductController(ILogger<ProductController> logger)
+        public ProductController(ILogger<ProductController> logger , StoreContext context)
         {
             _logger = logger;
+            _context = context;
         }
         [HttpGet]
-        public string GetProducts()
+        public async Task<ActionResult<List<Product>>> GetProducts()
         {
-            return "this will be a list of product";
+            var products = await _context.Products.ToListAsync();
+            return Ok(products);
         }
         [HttpGet("{id}")]
-        public string GetProduct(int id )
+        public async Task<ActionResult<Product>> GetProduct(int id )
         {
-            return "Single Product";
+
+            return await _context.Products.FindAsync(id);
         }
     }
 }
