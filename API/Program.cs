@@ -1,4 +1,5 @@
 
+using API.Helpers;
 using Core.Interfaces;
 using Infrastructure;
 using Infrastructure.Data;
@@ -20,6 +21,7 @@ var builder = WebApplication.CreateBuilder(args);
     });
     builder.Services.AddScoped<IProductRepository , ProductRepository>();
     builder.Services.AddScoped(typeof(IGenericRepository<>) , typeof(GenericRepository<>));
+    builder.Services.AddAutoMapper(typeof(MappingProfiles));
 }
 var app = builder.Build();
 using (var scope = app.Services.CreateScope())
@@ -50,6 +52,7 @@ if (app.Environment.IsDevelopment())
 
 
 app.UseHttpsRedirection();
+app.UseStaticFiles();
 app.MapControllers();
 app.Run();
 
