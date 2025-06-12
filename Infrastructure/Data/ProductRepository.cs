@@ -27,6 +27,12 @@ public class ProductRepository : IProductRepository
 
     public async Task<IReadOnlyList<Product>> GetProductsAsync()
     {
+        var typeId = 1 ;
+        
+        var prouducts = await _storeContext.Products.
+                        Where(p => p.ProductTypeId == typeId)
+                        .Include(p => p.ProductType).ToListAsync();
+
         return await _storeContext.Products
         .Include(p => p.ProductType)
         .Include(p => p.ProductBrand)
