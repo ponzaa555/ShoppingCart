@@ -1,10 +1,8 @@
 using API.Helpers;
-using Core.Interfaces;
-using Infrastructure;
 using Infrastructure.Data;
-using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.EntityFrameworkCore;
 using API.Controllers.Middleware;
+using API.Extensions;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -15,14 +13,14 @@ var builder = WebApplication.CreateBuilder(args);
 
     builder.WebHost.UseUrls("https://localhost:7153", "http://localhost:5153");
     builder.Services.AddEndpointsApiExplorer();
-    builder.Services.AddSwaggerGen();
     builder.Services.AddControllers();
     builder.Services.AddDbContext<StoreContext>( options => {
         options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection"));
     });
-    builder.Services.AddScoped<IProductRepository , ProductRepository>();
-    builder.Services.AddScoped(typeof(IGenericRepository<>) , typeof(GenericRepository<>));
+
     builder.Services.AddAutoMapper(typeof(MappingProfiles));
+    builder.Services.AddApplicationServices();
+    builder.Services.AddSwaggerDocumentation();
 }
 var app = builder.Build();
 using (var scope = app.Services.CreateScope())
@@ -49,8 +47,7 @@ using (var scope = app.Services.CreateScope())
 
 if (app.Environment.IsDevelopment())
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseSwaggerDocumentation();
 }
 
 app.UseHttpsRedirection();
