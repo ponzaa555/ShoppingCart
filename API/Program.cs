@@ -1,9 +1,10 @@
-
 using API.Helpers;
 using Core.Interfaces;
 using Infrastructure;
 using Infrastructure.Data;
+using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.EntityFrameworkCore;
+using API.Controllers.Middleware;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -44,14 +45,19 @@ using (var scope = app.Services.CreateScope())
 }
 
 // Configure the HTTP request pipeline.
+
+
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
 
-
 app.UseHttpsRedirection();
+// Add Exception middleware
+app.UseMiddleware<ExceptionMiddleware>();
+// ถ้า endPoint ไหนไม่มีจะผ่าน middlewar และ Re generate response ที่ Controller Path
+app.UseStatusCodePagesWithReExecute("/error/{0}");
 app.UseStaticFiles();
 app.MapControllers();
 app.Run();
