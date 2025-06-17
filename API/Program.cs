@@ -21,6 +21,16 @@ var builder = WebApplication.CreateBuilder(args);
     builder.Services.AddAutoMapper(typeof(MappingProfiles));
     builder.Services.AddApplicationServices();
     builder.Services.AddSwaggerDocumentation();
+    //Enable CORS(Cross-Origin Resource Sharing)
+    builder.Services.AddCors(options => 
+    {
+        options.AddPolicy("AllowAngularApp" , policy => 
+        {
+            policy.WithOrigins("https://localhost:4200")//or "*" to allow any origin (not recommended in prod)
+                    .AllowAnyHeader()
+                    .AllowAnyMethod();
+        });
+    });
 }
 var app = builder.Build();
 using (var scope = app.Services.CreateScope())
@@ -50,6 +60,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerDocumentation();
 }
 
+
+app.UseCors("AllowAngularApp");
 app.UseHttpsRedirection();
 // Add Exception middleware
 app.UseMiddleware<ExceptionMiddleware>();
