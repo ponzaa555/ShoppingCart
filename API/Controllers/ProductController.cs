@@ -32,11 +32,22 @@ namespace API.Controllers
         }
         [HttpGet]
         public async Task<ActionResult<IReadOnlyList<ProductToReturnDto>>> GetProducts(
-            string? sort , [FromQuery] int? brandId , [FromQuery] int? typeId)
+            string? sort , [FromQuery] int? brandId , [FromQuery] int? typeId ,
+            [FromQuery] int? pageSize  , [FromQuery] int? page)
         {
-            var spec = new ProductWithTypeAndBrandSpecification(sort , brandId , typeId);
-            var products = await _productRepo.ListAsync(spec);
-            return Ok( _mapper.Map<IReadOnlyList<Product> , IReadOnlyList<ProductToReturnDto>>(products));
+            var spec = new ProductWithTypeAndBrandSpecification(sort , brandId , typeId,pageSize,page);
+            var resultPagination = await _productRepo.ListAsyncWithPagination(spec);
+            var data =  _mapper.Map<IReadOnlyList<Product> , IReadOnlyList<ProductToReturnDto>>(resultPagination.Data);
+
+            var result = new PaginationReturn();
+            if(spec.IsPageingEnable)
+            {
+                result.PageIndex = spec.Skip;
+                result.PageSize = spec.Take;
+            }
+            result.Count = resultPagination.TotalCount;
+            result.Data = data;
+            return Ok(result);
         }
         [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]

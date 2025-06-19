@@ -32,9 +32,27 @@ namespace Infrastructure
         }
         public async Task<IReadOnlyList<T>> ListAsync(ISpecification<T> spec)
         {
+            
             return await ApplySpecification(spec).ToListAsync();
         }
 
+          public async Task<GenericPagedResult<T>> ListAsyncWithPagination(ISpecification<T> spec)
+        {
+            var basequery =  ApplySpecification(spec);
+            var totalCount = await basequery.CountAsync();
+            if (spec.IsPageingEnable)
+            {
+                 // Pagination
+                var skipAmont = (spec.Skip-1) * spec.Take;
+                basequery = basequery.Skip(skipAmont).Take(spec.Take);
+            }
+            var data = await basequery.ToListAsync();
+            return new GenericPagedResult<T>
+            {
+                TotalCount = totalCount,
+                Data = data
+            };
+        }
         private IQueryable<T> ApplySpecification(ISpecification<T> spec)
         {
             return SpecificationEvaluator<T>.GetQuery(_storeContext.Set<T>().AsQueryable() , spec);

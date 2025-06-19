@@ -4,6 +4,8 @@ import { IProduct } from '../shared/models/product';
 import { IBrand } from '../shared/models/brand';
 import { IType } from '../shared/models/productType';
 import { map } from 'rxjs';
+import { ShopParams } from '../shared/models/shopParams';
+import { IPagination } from '../shared/models/pagination';
 
 @Injectable({
   providedIn: 'root'
@@ -13,25 +15,29 @@ export class ShopService {
 
   constructor(private http : HttpClient) { 
   }
-  getProducts(brandId?:number, typeId?:number){
+  getProducts(shopParams:ShopParams){
     let params = new HttpParams();
     
     // check มี query ไหม
-    if(brandId)
+    if(shopParams.brandId !== 0)
     {
-      params = params.append("brandId" , brandId.toString())
+      params = params.append("brandId" , shopParams.brandId.toString())
     }
 
-    if(typeId)
+    if(shopParams.typeId !== 0)
     {
-      params = params.append("typeId" , typeId.toString());
+      params = params.append("typeId" , shopParams.typeId.toString());
     }
+
+    params = params.append("sort" , shopParams.sort);
+    params = params.append("page" , shopParams.pageNamber.toString())
+    params = params.append('pageSize' , shopParams.pageSize.toString());
     // to add query to url
-    return this.http.get<IProduct[]>(this.baseUrl + 'Product' , {observe:'response' , params})
+    return this.http.get<IPagination>(this.baseUrl + 'Product' , {observe:'response' , params})
           .pipe(
             map(response => {
               console.log("response :" , response)
-              return response.body ?? [];
+              return response.body ;
             })
           );
   }

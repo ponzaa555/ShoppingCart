@@ -13,5 +13,6 @@ namespace Core.Interfaces
         Task<IReadOnlyList<T>> ListAllAsync();
         Task<T> GetEntityWithSpec(ISpecification<T> spec);
         Task<IReadOnlyList<T>> ListAsync(ISpecification<T> spec);
+        Task<GenericPagedResult<T>> ListAsyncWithPagination(ISpecification<T> spec);
     }
 }

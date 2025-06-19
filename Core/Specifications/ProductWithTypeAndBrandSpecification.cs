@@ -4,6 +4,7 @@ namespace Core.Specifications;
 
 public class ProductWithTypeAndBrandSpecification : BaseSpecification<Product>
 {
+    
     // กรณีไม่ pass query condition
     public ProductWithTypeAndBrandSpecification(int id) : 
         base(x => x.Id == id)
@@ -11,7 +12,7 @@ public class ProductWithTypeAndBrandSpecification : BaseSpecification<Product>
         AddInclude(p => p.ProductType);
         AddInclude(p => p.ProductBrand);
     }
-    public ProductWithTypeAndBrandSpecification( string sort , int? brandId , int? typeId )
+    public ProductWithTypeAndBrandSpecification( string sort , int? brandId , int? typeId , int? take , int? skip)
         :base(x => 
             (!brandId.HasValue || x.ProductBrandId == brandId) &&
             (!typeId.HasValue || x.ProductTypeId == typeId)
@@ -36,6 +37,11 @@ public class ProductWithTypeAndBrandSpecification : BaseSpecification<Product>
                     AddOrderBy(p => p.Name);
                     break;
             }
+        }
+        // Add Pagination
+        if(skip.HasValue && take.HasValue)
+        {
+            ApplyPaging(skip.Value,take.Value);
         }
     }
 }
