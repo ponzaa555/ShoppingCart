@@ -5,6 +5,7 @@ using AutoMapper;
 using Core.Entities;
 using Core.Interfaces;
 using Core.Specifications;
+using Infrastructure.helpers;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
@@ -31,23 +32,16 @@ namespace API.Controllers
             _mapper = mapper;
         }
         [HttpGet]
-        public async Task<ActionResult<IReadOnlyList<ProductToReturnDto>>> GetProducts(
-            string? sort , [FromQuery] int? brandId , [FromQuery] int? typeId ,
-            [FromQuery] int? pageSize  , [FromQuery] int? page)
+        public async Task<ActionResult<BasePaginationDto<ProductToReturnDto>>> GetProducts(
+            string? sort , [FromQuery] int? brandId , [FromQuery] int? typeId ,[FromQuery] string? search ,
+            [FromQuery] PaginationParams paginationParams)
         {
-            var spec = new ProductWithTypeAndBrandSpecification(sort , brandId , typeId,pageSize,page);
-            var resultPagination = await _productRepo.ListAsyncWithPagination(spec);
-            var data =  _mapper.Map<IReadOnlyList<Product> , IReadOnlyList<ProductToReturnDto>>(resultPagination.Data);
+            var spec = new ProductWithTypeAndBrandSpecification(sort , brandId , typeId,paginationParams.PageSize,paginationParams.PageNumber,search);
+            var resultPagination = await _productRepo.CreatePaginationAsync(spec , paginationParams.PageNumber ,paginationParams.PageSize);
+            var data = BasePaginationDto<ProductToReturnDto>.MapPagination<Product,ProductToReturnDto>(resultPagination,_mapper);
 
-            var result = new PaginationReturn();
-            if(spec.IsPageingEnable)
-            {
-                result.PageIndex = spec.Skip;
-                result.PageSize = spec.Take;
-            }
-            result.Count = resultPagination.TotalCount;
-            result.Data = data;
-            return Ok(result);
+            
+            return Ok(data);
         }
         [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]

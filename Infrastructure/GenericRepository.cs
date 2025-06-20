@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Core.Entities;
+using Core.helpers;
 using Core.Interfaces;
 using Core.Specifications;
 using Infrastructure.Data;
@@ -53,6 +54,16 @@ namespace Infrastructure
                 Data = data
             };
         }
+
+        public async Task<PagedList<T>> CreatePaginationAsync(ISpecification<T> spec , int pageNumber, int pageSize)
+        {
+            var sourceQuery = ApplySpecification(spec);
+            var count = await sourceQuery.CountAsync();
+            var items = await sourceQuery.Skip((pageNumber-1)*pageSize).Take(pageSize).ToListAsync();
+            return new PagedList<T>(items,count,pageNumber,pageSize);
+        }
+
+        // this method use spect to create query command
         private IQueryable<T> ApplySpecification(ISpecification<T> spec)
         {
             return SpecificationEvaluator<T>.GetQuery(_storeContext.Set<T>().AsQueryable() , spec);

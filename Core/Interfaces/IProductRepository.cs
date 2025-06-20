@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Core.Entities;
+using Core.helpers;
 
 namespace Core.Interfaces
 {
@@ -12,5 +13,4 @@ namespace Core.Interfaces
         Task<IReadOnlyList<ProductBrand>> GetProductBrandsAsync();
         Task<IReadOnlyList<ProductType>> GetProductTypesAsync();
     }
-
 }

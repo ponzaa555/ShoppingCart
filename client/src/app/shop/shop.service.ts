@@ -29,9 +29,14 @@ export class ShopService {
       params = params.append("typeId" , shopParams.typeId.toString());
     }
 
+    if(shopParams.search)
+    {
+      params = params.append("search" , shopParams.search);
+    }
+
     params = params.append("sort" , shopParams.sort);
-    params = params.append("page" , shopParams.pageNamber.toString())
-    params = params.append('pageSize' , shopParams.pageSize.toString());
+    params = params.append("PageNumber" , shopParams.pageNamber.toString())
+    params = params.append('PageSize' , shopParams.pageSize.toString());
     // to add query to url
     return this.http.get<IPagination>(this.baseUrl + 'Product' , {observe:'response' , params})
           .pipe(

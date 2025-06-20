@@ -1,8 +1,9 @@
 import { IProduct } from "./product";
 
 export interface IPagination {
-    pageIndex : number;
-    pageSize : number;
-    count: number;
+    currentPage:number;
+    pageSize: number;
+    totalCount:number;
+    totalPage:number
     data : IProduct[];
 }

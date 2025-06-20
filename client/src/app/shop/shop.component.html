@@ -45,9 +45,9 @@
                 >
                 </app-paggin-header>
                 <div class="d-flex align-items-center  mt-2 gap-2">
-                    <input class="form-control rounded-1" type="text" style="width: 300px;" placeholder="Search">
-                    <button class="btn btn-outline-primary my-2 rounded-1">Search</button>
-                    <button class="btn btn-outline-success my-2 rounded-1">Reset</button>
+                    <input #search class="form-control rounded-1" type="text" style="width: 300px;" placeholder="Search" (keyup.enter)="onSearch()">
+                    <button class="btn btn-outline-primary my-2 rounded-1" (click)="onSearch()">Search</button>
+                    <button class="btn btn-outline-success my-2 rounded-1" (click)="onReset()">Reset</button>
                 </div>
             </div>
             <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
@@ -56,26 +56,11 @@
                 </div>
             </div>
             <div class="d-flex align-items-center justify-content-center" *ngIf="this.totalCount >0 ">
-                <nav aria-label="Page navigation example" class=" mt-3">
-                    <ul class="pagination">
-                      <li class="page-item" style="cursor: pointer;">
-                        <a class="page-link" aria-label="Previous">
-                          <span aria-hidden="true">&laquo;</span>
-                        </a>
-                      </li>
-                      <li class="page-item" *ngFor="let page of [1,2,3]"
-                        [value]="page"
-                        (click)="onPageChange(page)"
-                         style="cursor: pointer;">
-                        <a class="page-link">{{page}}</a>
-                      </li>
-                      <li class="page-item">
-                        <a class="page-link" style="cursor: pointer;" aria-label="Next">
-                          <span aria-hidden="true">&raquo;</span>
-                        </a>
-                      </li>
-                    </ul>
-                  </nav>
+               <app-pager
+               [pageSize]="shopParams.pageSize"
+               [totalCount]="totalCount"
+               (pageChanged)="onPageChange($event)"
+               ></app-pager>
             </div>
         </section>
     </div>
