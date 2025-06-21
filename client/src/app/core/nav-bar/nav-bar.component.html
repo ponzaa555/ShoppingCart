@@ -1,11 +1,11 @@
 <div class="d-flex align-items-center justify-content-between pb-3 mb-2 border-bottom flex-wrap shadow-sm fixed-top bg-white">
     <!-- Left: Logo -->
-    <img src="images/logo.png" style="max-height: 70px;" alt="logo" class="img-fluid"/>
+    <img src="images/logo.png" style="max-height: 70px;" alt="logo" class="img-fluid" routerLink="/"/>
   
     <!-- Middle: Nav -->
     <nav class="d-flex gap-3 my-2 text-uppercase " style="font-size: larger;">
-      <a class="link-body-emphasis text-decoration-none" href="#">Home</a>
-      <a class="link-body-emphasis text-decoration-none" href="#">Shop</a>
+      <a class="link-body-emphasis text-decoration-none" routerLink="/">Home</a>
+      <a class="link-body-emphasis text-decoration-none" [routerLink]="['/shop']"  >Shop</a>
       <a class="link-body-emphasis text-decoration-none" href="#">Contracr</a>
     </nav>
   
