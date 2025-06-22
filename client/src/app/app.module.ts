@@ -4,8 +4,6 @@ import { AppComponent } from "./app.component";
 import { BrowserModule } from "@angular/platform-browser";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { CoreModule } from "./core/core.module";
-import { ShopComponent } from "./shop/shop.component";
-import { ShopModule } from "./shop/shop.module";
 import { provideRouter, RouterModule } from "@angular/router";
 import { routes } from "./app.routes";
 import { HomeModule } from "./home/home.module";
@@ -18,7 +16,6 @@ import { HomeModule } from "./home/home.module";
       BrowserModule,
       BrowserAnimationsModule,
       CoreModule,
-      ShopModule,
       RouterModule,
       HomeModule
     ],
