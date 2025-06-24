@@ -22,7 +22,7 @@ import { ErrorInterceptor } from "./core/intercepture/error.interceptor";
       HttpClientModule
     ],
     bootstrap: [AppComponent], 
-    providers:[provideRouter(routes),
+    providers:[
       {provide:HTTP_INTERCEPTORS, useClass:ErrorInterceptor , multi:true}
     ]
   })

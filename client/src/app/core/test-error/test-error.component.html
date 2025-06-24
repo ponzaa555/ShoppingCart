@@ -13,6 +13,13 @@
     </button>
     <button class="btn btn-outline-primary me-3 rounded-1"
         (click)="get404ValidationError()"
-        >Test 404 ValidationError
+        >Test 400 ValidationError
     </button>
+    <div class="row mt-5 " *ngIf="validationError ">
+        <ul class="text-danger">
+            <li *ngFor="let error of validationError">
+                {{error}}
+            </li>
+        </ul>
+    </div>
 </div>

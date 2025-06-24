@@ -11,6 +11,7 @@ import { error } from 'console';
 })
 export class TestErrorComponent implements OnInit {
   baseUrl = environment.apiUrl
+  validationError!:any;
   constructor( private http:HttpClient){ }
   ngOnInit(): void {
     
@@ -44,6 +45,7 @@ export class TestErrorComponent implements OnInit {
       console.log(response);
     },error => {
       console.log(error)
+      this.validationError = error .errors;
     })
   }
 }
