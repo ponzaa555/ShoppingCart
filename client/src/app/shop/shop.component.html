@@ -1,7 +1,8 @@
 <div class="container mt-5">
-    <div class="row">
+    <div class="row justify-content-between mx-5">
         <!-- Filter -->
         <section class="col-3">
+        <ng-container *ngIf="types.length > 0 && brands.length > 0">
             <h5 class="text-warning ml-3">Sort</h5>
             <select #sortSelect class="form-select my-3" 
                 (change)="onSortSelected(sortSelect.value)">
@@ -34,6 +35,7 @@
                     {{type.name}}
                 </li>
               </ul>
+            </ng-container>
         </section>
         <!-- Main grid -->
         <section class="col-9">
@@ -44,7 +46,7 @@
                 [pageNumber]="shopParams.pageNamber"
                 >
                 </app-paggin-header>
-                <div class="d-flex align-items-center  mt-2 gap-2">
+                <div class="d-flex align-items-center  mt-2 gap-2" *ngIf="products">
                     <input #search class="form-control rounded-1" type="text" style="width: 300px;" placeholder="Search" (keyup.enter)="onSearch()">
                     <button class="btn btn-outline-primary my-2 rounded-1" (click)="onSearch()">Search</button>
                     <button class="btn btn-outline-success my-2 rounded-1" (click)="onReset()">Reset</button>
@@ -55,7 +57,7 @@
                    <app-product-item [product]="item"></app-product-item>
                 </div>
             </div>
-            <div class="d-flex align-items-center justify-content-center" *ngIf="this.totalCount >0 ">
+            <div class="d-flex align-items-center justify-content-center mt-5" *ngIf="this.totalCount >0 ">
                <app-pager
                [pageSize]="shopParams.pageSize"
                [totalCount]="totalCount"
