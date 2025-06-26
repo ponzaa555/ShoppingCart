@@ -18,7 +18,7 @@ var builder = WebApplication.CreateBuilder(args);
     builder.Services.AddDbContext<StoreContext>( options => {
         options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection"));
     });
-    builder.Services.AddSingleton<ConnectionMultiplexer>(c => {
+    builder.Services.AddSingleton<IConnectionMultiplexer>(c => {
         var configuration = ConfigurationOptions.Parse(builder.Configuration.GetConnectionString("Redis"), true);
         return ConnectionMultiplexer.Connect(configuration);  
     });
