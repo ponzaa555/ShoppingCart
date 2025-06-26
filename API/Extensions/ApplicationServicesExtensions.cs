@@ -16,6 +16,7 @@ namespace API.Extensions
         {
             services.AddScoped<IProductRepository , ProductRepository>();
             services.AddScoped(typeof(IGenericRepository<>) , typeof(GenericRepository<>));
+            services.AddScoped<IBasketRepository , BasketRepository>();
 
             // OverWrite [ApiController] behavior ตัวนี้จะช่วยดัก และ แสดง Error ก่อนถ้า input is validation แต่อยากให้ error เหมือนกันหดม
             // เลย overite การ return error
