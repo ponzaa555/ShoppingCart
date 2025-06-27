@@ -13,6 +13,9 @@ export const routes: Routes = [
     {//lazy loading
         path:"shop",loadChildren: () => import("./shop/shop.module").then(mod => mod.ShopModule) ,data:{breadcrumb:'Shop'}
     },
+    {//lazy loading
+        path:"basket",loadChildren: () => import("./basket/basket.module").then(mod => mod.BasketModule),data:{breadcrumb:'Basket'}
+    },
     { path:"test-error" , component:TestErrorComponent , data:{breadcrumb:'Test Errors'}},
     { path:"server-error" , component:ServerErrorComponent ,data:{breadcrumb:'Sever Errors'}},
     { path:"not-found" , component:NotFoundComponent , data:{breadcrumb:'Not Found'}},
