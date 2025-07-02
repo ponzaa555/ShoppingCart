@@ -43,7 +43,7 @@ export class ShopService {
             map(response => {
               console.log("response :" , response)
               return response.body ;
-            })
+            }),
           );
   }
 

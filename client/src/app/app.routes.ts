@@ -4,6 +4,10 @@ import { HomeComponent } from './home/home.component';
 import { TestErrorComponent } from './core/test-error/test-error.component';
 import { ServerErrorComponent } from './core/server-error/server-error.component';
 import { NotFoundComponent } from './core/not-found/not-found.component';
+import { BasketModule } from './basket/basket.module';
+import { ShopModule } from './shop/shop.module';
+import { CheckoutModule } from './checkout/checkout.module';
+import { ShopComponent } from './shop/shop.component';
 
 
 export const routes: Routes = [
@@ -11,11 +15,19 @@ export const routes: Routes = [
         path:'',component:HomeComponent , data:{breadcrumb:'Home'}
     },
     {//lazy loading
-        path:"shop",loadChildren: () => import("./shop/shop.module").then(mod => mod.ShopModule) ,data:{breadcrumb:'Shop'}
+        path:"shop",loadChildren:() => ShopModule,data:{breadcrumb:'Shop'}
     },
     {//lazy loading
-        path:"basket",loadChildren: () => import("./basket/basket.module").then(mod => mod.BasketModule),data:{breadcrumb:'Basket'}
+        path:"basket",loadChildren: () => BasketModule,data:{breadcrumb:'Basket'}
     },
+    /*
+    {//lazy loading
+        path:"checkout",loadChildren: () => import("./checkout/checkout.module").then(mod => mod.CheckoutModule),data:{breadcrumb:'Checkout'}
+    },
+    */
+   {
+    path:"checkout" , loadChildren: () => CheckoutModule, data:{breadcrumb:'Checkout'}
+   },
     { path:"test-error" , component:TestErrorComponent , data:{breadcrumb:'Test Errors'}},
     { path:"server-error" , component:ServerErrorComponent ,data:{breadcrumb:'Sever Errors'}},
     { path:"not-found" , component:NotFoundComponent , data:{breadcrumb:'Not Found'}},

@@ -1,5 +1,6 @@
 **/obj
 **/bin
 *.db 
+**.rdb
 ShopingCart.db-shm
 ShopingCart.db-wal

@@ -4,6 +4,7 @@ import { ShopService } from './shop.service';
 import { IBrand } from '../shared/models/brand';
 import { IType } from '../shared/models/productType';
 import { ShopParams } from '../shared/models/shopParams';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-shop',

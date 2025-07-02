@@ -27,7 +27,7 @@ import { LoadingInterceptor } from "./core/intercepture/loading.interceptor";
     bootstrap: [AppComponent], 
     providers:[
       {provide:HTTP_INTERCEPTORS, useClass:ErrorInterceptor , multi:true},
-      {provide:HTTP_INTERCEPTORS, useClass:LoadingInterceptor , multi:true}
+      {provide:HTTP_INTERCEPTORS, useClass:LoadingInterceptor , multi:true},
     ]
   })
 export class AppModule { }
