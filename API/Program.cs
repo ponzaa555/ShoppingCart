@@ -5,6 +5,8 @@ using API.Controllers.Middleware;
 using API.Extensions;
 using StackExchange.Redis;
 using Infrastructure.Identity;
+using Microsoft.AspNetCore.Identity;
+using Core.Entities.Identity;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -27,6 +29,7 @@ var builder = WebApplication.CreateBuilder(args);
         return ConnectionMultiplexer.Connect(configuration);  
     });
     builder.Services.AddAutoMapper(typeof(MappingProfiles));
+    builder.Services.AddIdentityServices(builder.Configuration);
     builder.Services.AddApplicationServices();
     builder.Services.AddSwaggerDocumentation();
     //Enable CORS(Cross-Origin Resource Sharing)
@@ -52,6 +55,14 @@ using (var scope = app.Services.CreateScope())
         // will applay pending migration to database
         await context.Database.MigrateAsync();
         await StoreContextSeed.SeedAsync(context , loggerFactory);
+
+        var userManager =  services.GetRequiredService<UserManager<AppUser>>();
+        var identityContext =services.GetRequiredService<AppIdentityDbContext>();
+        // Apply Migration to AppIdentityDbContext database
+        await identityContext.Database.MigrateAsync();
+        //Post Seed data
+        await AppIdentityDbContextSeed.SeedUsersAsync(userManager);
+
     }
     catch(Exception ex)
     {
@@ -73,6 +84,8 @@ app.UseCors("AllowAngularApp");
 app.UseHttpsRedirection();
 // Add Exception middleware
 app.UseMiddleware<ExceptionMiddleware>();
+app.UseAuthentication();
+app.UseAuthorization();
 // ถ้า endPoint ไหนไม่มีจะผ่าน middlewar และ Re generate response ที่ Controller Path
 app.UseStatusCodePagesWithReExecute("/error/{0}");
 app.UseStaticFiles();
