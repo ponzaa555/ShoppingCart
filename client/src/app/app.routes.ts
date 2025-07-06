@@ -8,6 +8,7 @@ import { BasketModule } from './basket/basket.module';
 import { ShopModule } from './shop/shop.module';
 import { CheckoutModule } from './checkout/checkout.module';
 import { ShopComponent } from './shop/shop.component';
+import { AccountModule } from './account/account.module';
 
 
 export const routes: Routes = [
@@ -25,6 +26,9 @@ export const routes: Routes = [
         path:"checkout",loadChildren: () => import("./checkout/checkout.module").then(mod => mod.CheckoutModule),data:{breadcrumb:'Checkout'}
     },
     */
+   {
+    path:'account', loadChildren: () => AccountModule , data:{breadcrumb: {skip : true}}
+   },
    {
     path:"checkout" , loadChildren: () => CheckoutModule, data:{breadcrumb:'Checkout'}
    },
