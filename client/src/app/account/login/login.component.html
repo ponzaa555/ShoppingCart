@@ -4,15 +4,39 @@
             <img class="mb-4" src="https://getbootstrap.com/docs/5.3/assets/brand/bootstrap-logo.svg" alt="" width="72"
                 height="57">
             <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
-            <div class="form-floating my-2">
-                <input formControlName="email" type="email" class="form-control" id="floatingInput" placeholder="name@example.com"> 
-                <label for="floatingInput">Email address</label>
-            </div>
-            <div class="form-floating"> 
+            <app-text-input
+              [label]="'Email'"
+              [formControl]="$any(loginForm.controls['email'])"
+              [placeholder]="'enter your email'"
+              [type]="'email'"
+              >
+            </app-text-input>
+            <app-text-input
+             [label]="'Password'"
+             [formControl]="$any(loginForm.controls['password'])"
+             [placeholder]="'enter your password'"
+             [type]="'password'"
+              >
+            </app-text-input>
+            <!-- <div class="form-floating"> 
                 <input formControlName="password" type="password" class="form-control" id="floatingPassword"placeholder="Password"> 
                 <label for="floatingPassword">Password</label>
-            </div>
-            <button class="btn btn-primary w-100 my-3 py-2" type="submit">Sign in</button>
+                <span class="text-danger" 
+                    *ngIf="loginForm.get('password')?.invalid 
+                        && loginForm.get('password')?.touched 
+                        && loginForm.get('password')?.errors?.['required']" 
+                > Password is required</span>
+            </div> -->
+            <button [disabled]="loginForm.invalid " class="btn btn-primary w-100 my-3 py-2" type="submit">Sign in</button>
         </form>
+    </div>
+    <div class="col-4 ms-3"> 
+        <p>Form Stauts: {{loginForm.status}}</p>
+        <p>Email Status: {{loginForm.get('email')!.status}}</p>
+        <p>Email Touched: {{loginForm.get('email')!.touched}}</p>
+        <p>Email Status: {{loginForm.get('email')!.dirty}}</p>
+        <p>Email Status Pattern: {{loginForm.get('email')?.errors?.["pattern"]}}</p>
+        <p>Email Status Required: {{loginForm.get('email')?.errors?.["required"]}}</p>
+        <pre>{{loginForm.value | json}}</pre>
     </div>
 </div>

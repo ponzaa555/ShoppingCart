@@ -1,0 +1,21 @@
+<div class="form-floating mb-3">
+  <input 
+      type="{{type}}" 
+      class="form-control touched" 
+      placeholder="{{placeholder}}"
+      [ngClass]="control.touched ? (control.invalid ? 'is-invalid':'is-valid') : null"
+      [formControl]="control"
+      />
+  <label for="{{label}}"><strong>{{label}}</strong></label>
+
+  <!-- Validator message -->
+   @if (control.errors?.['required']) {
+    <div class="invalid-feedback">Please provide {{label}}</div>
+   }
+   @if (control.errors?.['email']) {
+    <div class="invalid-feedback">Invalid email address</div>
+   }
+   @if (control.errors?.['minlength']) {
+    <div class="invalid-feedback">Password must be at least 8 characters long</div>
+   }
+</div>
