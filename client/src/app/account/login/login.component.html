@@ -18,25 +18,9 @@
              [type]="'password'"
               >
             </app-text-input>
-            <!-- <div class="form-floating"> 
-                <input formControlName="password" type="password" class="form-control" id="floatingPassword"placeholder="Password"> 
-                <label for="floatingPassword">Password</label>
-                <span class="text-danger" 
-                    *ngIf="loginForm.get('password')?.invalid 
-                        && loginForm.get('password')?.touched 
-                        && loginForm.get('password')?.errors?.['required']" 
-                > Password is required</span>
-            </div> -->
+            
             <button [disabled]="loginForm.invalid " class="btn btn-primary w-100 my-3 py-2" type="submit">Sign in</button>
         </form>
     </div>
-    <div class="col-4 ms-3"> 
-        <p>Form Stauts: {{loginForm.status}}</p>
-        <p>Email Status: {{loginForm.get('email')!.status}}</p>
-        <p>Email Touched: {{loginForm.get('email')!.touched}}</p>
-        <p>Email Status: {{loginForm.get('email')!.dirty}}</p>
-        <p>Email Status Pattern: {{loginForm.get('email')?.errors?.["pattern"]}}</p>
-        <p>Email Status Required: {{loginForm.get('email')?.errors?.["required"]}}</p>
-        <pre>{{loginForm.value | json}}</pre>
-    </div>
 </div>
+

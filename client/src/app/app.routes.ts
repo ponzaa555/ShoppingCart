@@ -9,6 +9,7 @@ import { ShopModule } from './shop/shop.module';
 import { CheckoutModule } from './checkout/checkout.module';
 import { ShopComponent } from './shop/shop.component';
 import { AccountModule } from './account/account.module';
+import { AuthGuard } from './core/guards/auth.guard';
 
 
 export const routes: Routes = [
@@ -30,7 +31,9 @@ export const routes: Routes = [
     path:'account', loadChildren: () => AccountModule , data:{breadcrumb: {skip : true}}
    },
    {
-    path:"checkout" , loadChildren: () => CheckoutModule, data:{breadcrumb:'Checkout'}
+    path:"checkout" , 
+    canActivate :[AuthGuard],
+    loadChildren: () => CheckoutModule, data:{breadcrumb:'Checkout'}
    },
     { path:"test-error" , component:TestErrorComponent , data:{breadcrumb:'Test Errors'}},
     { path:"server-error" , component:ServerErrorComponent ,data:{breadcrumb:'Sever Errors'}},

@@ -9,12 +9,12 @@ import { AccountService } from './account/account.service';
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
-  standalone:false
+  standalone: false
 })
 export class AppComponent implements OnInit {
   title = 'Skinet';
 
-  constructor(private basketService : BasketService , private router: Router , private accountService : AccountService) {
+  constructor(private basketService: BasketService, private router: Router, private accountService: AccountService) {
     // this.router.events.subscribe(event => {
     //   if(event instanceof NavigationError){
     //     if (event.error?.message?.includes('Failed to fetch dynamically imported module')) {
@@ -29,9 +29,9 @@ export class AppComponent implements OnInit {
     this.loadCurrentUser();
   }
 
-  loadingBasket(){
+  loadingBasket() {
     const baseketId = localStorage.getItem("basket_id");
-    if(baseketId){
+    if (baseketId) {
       this.basketService.getBasket(baseketId).subscribe(() => {
         console.log("initialised Basket");
       }, error => {
@@ -39,14 +39,13 @@ export class AppComponent implements OnInit {
       })
     }
   }
-
-  loadCurrentUser(){
-    const token = localStorage.getItem("token")
-    if(token){
-      this.accountService.loadCurrentUser(token).subscribe({
-        next: () => console.log("loaded user"),
-        error: error => console.log(error)
-      });
-    }
+ 
+  loadCurrentUser() {
+    // ถึง null ก็จะ check user
+    const token = localStorage.getItem("token") 
+    this.accountService.loadCurrentUser(token)!.subscribe({
+      next: () => console.log("loaded user"),
+      error: error => console.log(error)
+    });
   }
 }
