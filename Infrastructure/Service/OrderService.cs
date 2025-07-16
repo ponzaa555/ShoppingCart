@@ -45,6 +45,7 @@ namespace Infrastructure.Service
 
             // delete Basket
             await _basketRepo.DeleteBasketAsync(basketId);
+            
             // return order
             return order;
         }

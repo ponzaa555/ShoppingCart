@@ -72,8 +72,8 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
             "buildTarget": "client:build",
-            "sslKey": "ssl/server.key",
-            "sslCert": "ssl/server.crt",
+            "sslKey": "./ssl/self-signed-with-no-passphrase/secureAngularExample.key",
+            "sslCert": "./ssl/self-signed-with-no-passphrase/secureAngularExample.crt",
             "ssl": true
           },
           "configurations": {
