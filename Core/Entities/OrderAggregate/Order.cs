@@ -1,8 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
 namespace Core.Entities.OrderAggregate
 {
     public class Order : BaseEntity
@@ -27,7 +22,7 @@ namespace Core.Entities.OrderAggregate
         public IReadOnlyList<OrderItem> OrderItems {get; set;}
         public decimal Subtotal {get; set;}
         public OrderStatus Status {get; set;} = OrderStatus.Pending;
-        public string PaymentIntenId {get; set;}
+        public string? PaymentIntenId {get; set;} 
          
          // method to calculate the total price
          public decimal GetTotal()
