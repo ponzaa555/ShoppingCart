@@ -1,0 +1,54 @@
+<!-- <div class="mt-4" >
+    <div class="d-flex justify-content-between align-item-center">
+        <h4>Shipping address</h4>
+        <button class="btn btn-outline-success mb-3">
+            Save as default address
+        </button>
+    </div>
+    <div class="row mt-4" formGroupName="addressForm">
+        <div class="col-6">
+            <app-text-input 
+            [label]="'First Name'" 
+            [placeholder]="'enter your firstName'"
+            formControlName="firstName"></app-text-input>
+        </div>
+        <div class="col-6">
+            <app-text-input [label]="'last Name'" 
+            formControlName="lastName"
+            [placeholder]="'enter your lastName'"
+            ></app-text-input>
+        </div>
+        <div class="col-6">
+            <app-text-input [label]="'Street'" 
+            formControlName="street"
+            [placeholder]="'street'"
+            ></app-text-input>
+        </div>
+        <div class="col-6">
+            <app-text-input [label]="'City'" 
+            formControlName="city"
+            [placeholder]="'City'"
+            ></app-text-input>
+        </div>
+        <div class="col-6">
+            <app-text-input [label]="'State'" 
+            formControlName="state"
+            [placeholder]="'State'"
+            ></app-text-input>
+        </div>
+        <div class="col-6">
+            <app-text-input [label]="'Zip Code'" 
+            formControlName="zipcode"
+            [placeholder]="'Zip Code'"
+            ></app-text-input>
+        </div>
+    </div>
+</div> -->
+<div class="float-none d-flex flex-column flex-lg-row mb-2 gap-3 justify-content-between">
+    <button class=" btn btn-outline-primary" routerLink="/basket">
+        <i class=" fa fa-angle-left">Back to basket</i>
+    </button>
+    <button class=" btn btn-primary gap-x-2" matButton matStepperNext>
+        Go to Delivery <i class="fa fa-angle-right"></i>
+    </button>
+</div>

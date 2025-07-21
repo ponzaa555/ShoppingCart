@@ -1,0 +1,26 @@
+<div class="mt-4" [formGroup]="checkoutForm">
+        <div class="row" formGroupName="deliveryForm">
+            <div class="col-6 form-group my-2 " *ngFor="let method of deliveryMethod">
+                <input type="radio"
+                    id={{method.id}}
+                    value={{method.id}}
+                    [class.is-invalid]="checkoutForm.get('deliveryMethod')?.invalid && checkoutForm.get('deliveryMethod')?.touched"
+                    formControlName="deliveryMethod"
+                    class="form-check-input square-radio"
+                >
+                <label for="{{method.id}}" class="form-check-label ms-2">
+                    <strong>{{method.shortName}} - {{method.price|currency}}</strong>
+                    <br>
+                    <span class="label-description">{{method.description}}</span>
+                </label>
+            </div>
+        </div>
+</div>
+<div class="float-none d-flex flex-column flex-lg-row mb-2 gap-3 justify-content-between">
+    <button class=" btn btn-outline-primary" matButton matStepperPrevious>
+        <i class=" fa fa-angle-left">Back to Address</i>
+    </button>
+    <button class=" btn btn-primary gap-x-2" matButton matStepperNext [disabled]="checkoutForm.get('deliveryForm.deliveryMethod')?.invalid">
+        Go to Review <i class="fa fa-angle-right"></i>
+    </button>
+</div>

@@ -11,6 +11,7 @@ import { ErrorInterceptor } from "./core/intercepture/error.interceptor";
 import { NgxSpinnerModule } from "ngx-spinner";
 import { LoadingInterceptor } from "./core/intercepture/loading.interceptor";
 import { BsDropdownConfig } from "ngx-bootstrap/dropdown";
+import { JwtInterceptor } from "./core/intercepture/jwt.interceptor";
 
 
 
@@ -28,6 +29,7 @@ import { BsDropdownConfig } from "ngx-bootstrap/dropdown";
     providers:[
       {provide:HTTP_INTERCEPTORS, useClass:ErrorInterceptor , multi:true},
       {provide:HTTP_INTERCEPTORS, useClass:LoadingInterceptor , multi:true},
+      {provide:HTTP_INTERCEPTORS, useClass:JwtInterceptor , multi:true},
       provideAnimations()
     ]
   })
