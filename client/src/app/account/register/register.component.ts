@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AsyncValidatorFn, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AsyncValidatorFn, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { AccountService } from '../account.service';
 import { Router } from '@angular/router';
 import { map, of, switchMap, timer } from 'rxjs';
@@ -13,12 +13,18 @@ import { map, of, switchMap, timer } from 'rxjs';
 export class RegisterComponent implements OnInit {
 
   registerForm!:FormGroup;
+  displayNameForm!:FormControl
+  emailForm!:FormControl
+  passwordForm! :FormControl
   errors:string[] = [];
 
   constructor(private fb:FormBuilder , private accountService :AccountService , private router:Router){}
 
   ngOnInit(): void {
     this.createRegisterForm();
+    this.displayNameForm = this.registerForm.get('displayName') as FormControl
+    this.emailForm = this.registerForm.get('email') as FormControl
+    this.passwordForm = this.registerForm.get('password') as FormControl
   }
 
   createRegisterForm(){

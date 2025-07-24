@@ -1,4 +1,4 @@
-import { NgModule } from "@angular/core";
+import { forwardRef, NgModule } from "@angular/core";
 import { HTTP_INTERCEPTORS, HttpClientModule, provideHttpClient, withInterceptors } from "@angular/common/http";
 import { AppComponent } from "./app.component";
 import { BrowserModule } from "@angular/platform-browser";
@@ -12,6 +12,8 @@ import { NgxSpinnerModule } from "ngx-spinner";
 import { LoadingInterceptor } from "./core/intercepture/loading.interceptor";
 import { BsDropdownConfig } from "ngx-bootstrap/dropdown";
 import { JwtInterceptor } from "./core/intercepture/jwt.interceptor";
+import { NG_VALUE_ACCESSOR } from "@angular/forms";
+import { TextInputFormComponent } from "./shared/components/text-input-form/text-input-form.component";
 
 
 

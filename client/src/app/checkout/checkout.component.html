@@ -4,7 +4,7 @@
             <mat-vertical-stepper [linear]="true" #stepper [animationDuration]="'1000'">
                 <mat-step [label]="'Address'" [stepControl]="checkoutForm.get('addressFrom')?.value"
                 [errorMessage]="'Address is required.'">
-                    <app-checkout-address></app-checkout-address>
+                    <app-checkout-address [form]="addressForm"></app-checkout-address>
                 </mat-step>
                 <mat-step [label]="'Delivery'" [stepControl]="checkoutForm.get('deliveryForm')!     " 
                 [errorMessage]="'Shippng is required.'" [optional]="'isOptional'">

@@ -1,37 +1,45 @@
 <div class="d-flex justify-content-center mt-5">
-    <div class="col-3">
-        <form [formGroup]="registerForm" (ngSubmit)="onSubmite()">
-            <img class="mb-4" src="https://getbootstrap.com/docs/5.3/assets/brand/bootstrap-logo.svg" alt="" width="72"
-                height="57">
-            <h1 class="h3 mb-3 fw-normal">Register</h1>
-            <app-text-input
-             [label]="'Display Name'"
-             [formControl]="$any(registerForm.controls['displayName'])"
-             [placeholder]="'enter your name'"
-              >
-            </app-text-input>
-            <app-text-input
-              [label]="'Email'"
-              [formControl]="$any(registerForm.controls['email'])"
-              [placeholder]="'enter your email'"
-              [type]="'email'"
-              >
-            </app-text-input>
-            <app-text-input
-             [label]="'Password'"
-             [formControl]="$any(registerForm.controls['password'])"
-             [placeholder]="'enter your password'"
-             [type]="'password'"
-              >
-            </app-text-input>
+  <div class="col-3">
+    <form [formGroup]="registerForm" (ngSubmit)="onSubmite()">
+      <img class="mb-4" src="https://getbootstrap.com/docs/5.3/assets/brand/bootstrap-logo.svg" alt="" width="72"
+        height="57">
+      <h1 class="h3 mb-3 fw-normal">Register</h1>
+      <div class="form-floating mb-3">
+        <input type="text" id="displayName" formControlName="displayName" placeholder="Email" class="form-control touched"
+          [ngClass]="{
+                      'is-valid':displayNameForm.touched && displayNameForm.valid,
+                      'is-invalid':displayNameForm.touched && displayNameForm.invalid && !displayNameForm.pending
+                  }">
+        <label for="DisplayName">DisplayName</label>
+        <!-- Error -->
+        <div *ngIf="displayNameForm && displayNameForm.status === 'PENDING'" class="fa fa-spinner fa-spin loader">
+        </div>
+        <!-- Validator message -->
+        @if (displayNameForm.errors?.['required']) {
+        <div class="invalid-feedback">Please provide DisplayName</div>
+        }
+        @if (displayNameForm.errors?.['email']) {
+        <div class="invalid-feedback">Invalid email address</div>
+        }
+        @if (displayNameForm.errors?.['minlength']) {
+        <div class="invalid-feedback">Password must be at least 8 characters long</div>
+        }
+        <div class="invalid-feedback" *ngIf="displayNameForm.errors?.['emailExist']">Email address is in use</div>
+      </div>
+      <app-text-input-form [label]="'email'" [formControl]="emailForm" [type]="'text'">
+      </app-text-input-form>
+      <app-text-input-form
+      [label]="'password'"
+      [formControl]="passwordForm"
+      [type]="'password'"
+      ></app-text-input-form>
+      <ul class="text-danger list-unstyled" *ngIf="errors">
+        <li *ngFor="let error of errors">
+          {{error}}
+        </li>
+      </ul>
 
-            <ul class="text-danger list-unstyled" *ngIf="errors">
-              <li *ngFor="let error of errors">
-                {{error}}
-              </li>
-            </ul>
-
-            <button  class="btn btn-primary w-100 my-3 py-2" type="submit">Sign in</button>
-        </form>
-    </div>
+      <button class="btn btn-primary w-100 my-3 py-2" type="submit">Sign in</button>
+    </form>
+  </div>
 </div>
