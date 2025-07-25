@@ -3,6 +3,8 @@ import { environment } from '../../env/env';
 import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs';
 import { IDeliveryMethod } from '../shared/models/deliveryMethod';
+import { IOrder, IOrderToCreate } from '../shared/models/order';
+import { FormGroup } from '@angular/forms';
 
 @Injectable({
   providedIn: 'root'
@@ -19,4 +21,18 @@ export class CheckoutService {
      })
     )
   }
+  
+  submiteOrder(order : IOrderToCreate){
+    return this.http.post<IOrder>(this.baseUrl + 'Orders' , order).pipe(
+      map((orderRes : IOrder) => {
+        console.log(orderRes)
+        return orderRes
+      })
+    )
+  }
+
+  // createOrder(checkoutForm : FormGroup): IOrderToCreate{
+  //   var basketId = localStorage.getItem('basket_id');
+  //   var res = 
+  // }
 }

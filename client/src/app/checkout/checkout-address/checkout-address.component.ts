@@ -9,11 +9,12 @@ import { FormControl, FormGroup } from '@angular/forms';
 })
 export class CheckoutAddressComponent implements OnInit {
   @Input() form!:FormGroup;
-  firstNameControl! : FormControl
-  lastNameControl! : FormControl
-  streetControl! : FormControl
-  stateControl! : FormControl
-  zipcodeControl! :FormControl
+  firstNameControl! : FormControl;
+  lastNameControl! : FormControl;
+  streetControl! : FormControl;
+  cityControl! : FormControl;
+  stateControl! : FormControl;
+  zipcodeControl! :FormControl;
   constructor(){}
   ngOnInit(): void {
     this.registerFormControl();
@@ -24,5 +25,6 @@ export class CheckoutAddressComponent implements OnInit {
     this.streetControl = this.form.get('street') as FormControl;
     this.stateControl = this.form.get('state') as FormControl;
     this.zipcodeControl = this.form.get('zipcode') as FormControl;
+    this.cityControl = this.form.get('city') as FormControl;
   }
 }

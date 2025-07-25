@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, map } from 'rxjs';
 import { Basket, IBasket, IBasketItem, IBasketTotals } from '../shared/models/basket';
 import { IProduct } from '../shared/models/product';
+import { IDeliveryMethod } from '../shared/models/deliveryMethod';
 
 @Injectable({
   providedIn: 'root',
@@ -14,8 +15,14 @@ export class BasketService {
   basket$ = this.basketSource.asObservable();
   private basketTotalSource = new BehaviorSubject<IBasketTotals|null>(null);
   basketTotal$ = this.basketTotalSource.asObservable();
+  shipping = 0;
 
   constructor(private http: HttpClient) {}
+
+  setShippingPrice(deliveryMethod : IDeliveryMethod){
+    this.shipping = deliveryMethod.price;
+    this.calculateTotals();
+  }
 
   getBasket(id: string) {
     return this.http.get<IBasket>(this.baseUrl + 'Basket?id=' + id).pipe(
@@ -122,7 +129,7 @@ export class BasketService {
 
   private calculateTotals(){
     const baseket = this.getCurrentBasketValue();
-    const shiping = 0;
+    const shiping = this.shipping;
     // reduce function a is initail value set to 0 and loop thought array then plus to a
     const subtotal = baseket === null ? 0 : baseket.items.reduce((a,b) => (b.price * b.quantity) + a , 0)
     const total = subtotal + shiping
@@ -132,4 +139,5 @@ export class BasketService {
       total : total
     } as IBasketTotals)
   }
+
 }
