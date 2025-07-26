@@ -10,6 +10,8 @@ import { CheckoutModule } from './checkout/checkout.module';
 import { ShopComponent } from './shop/shop.component';
 import { AccountModule } from './account/account.module';
 import { AuthGuard } from './core/guards/auth.guard';
+import { OrdersComponent } from './orders/orders.component';
+import { OrdersModule } from './orders/orders.module';
 
 
 export const routes: Routes = [
@@ -28,7 +30,10 @@ export const routes: Routes = [
     },
     */
    {
-    path:'account', loadChildren: () => AccountModule , data:{breadcrumb: {skip : true}}
+    path:'orders' , loadChildren: () => OrdersModule , data:{breadcrumb:'Orders'}
+   },
+   {
+    path:'account', canActivate:[AuthGuard] ,loadChildren: () => AccountModule , data:{breadcrumb: {skip : true}}
    },
    {
     path:"checkout" , 

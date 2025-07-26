@@ -1,0 +1,53 @@
+<ng-container *ngIf="order">
+    <div class="container mt-5 d-flex ">
+        <!-- Basket Summary -->
+        <div class="col-8 me-5">
+            <table class="table table-borderless">
+                <thead class="">
+                    <th scope="col" class="text-uppercase border-0 bg-light p-3">product</th>
+                    <th scope="col" class="text-uppercase border-0 bg-light p-3">price</th>
+                    <th scope="col" class="text-uppercase border-0 bg-light p-3">quantity</th>
+                    <th scope="col" class="text-uppercase border-0 bg-light p-3">total</th>
+                </thead>
+                <tbody>
+                    <ng-container *ngIf="order">
+                        <tr class=" align-items-center" *ngFor="let item of order.orderItems">
+                            <th class="d-flex align-middle" scope="row p-3">
+                                <img class="img-fluid" src="{{item.pictureUrl}}" alt="" style="max-height: 50px;">
+                                <div class="d-flex ms-3 align-items-center">
+                                    <h5 class="mt-2">{{item.productName}}</h5>
+                                </div>
+                            </th>
+                            <td class=" align-middle p-3"> <strong>{{item.price|currency}}</strong></td>
+                            <td class=" align-middle p-3"><strong>{{item.quantity}}</strong></td>
+                            <td class=" align-middle p-3"><strong>{{(item.price * item.quantity)|currency}}</strong>
+                            </td>
+                        </tr>
+                    </ng-container>
+                </tbody>
+            </table>
+        </div>
+        <!-- Order Summary -->
+        <div class="col-4">
+            <div class="bg-light px-4 py-3 text-uppercase fw-bold">
+                Order Summary
+            </div>
+            <div class="p-4">
+                <ul class="order-summary list-unstyled">
+                    <li class="order-summary ">
+                        <strong class="text-muted">Order subtotal</strong>
+                        <strong>{{order.subtotal | currency}}</strong>
+                    </li>
+                    <li class="order-summary">
+                        <strong class="text-muted">Shipping and handling</strong>
+                        <strong>{{order.shippingPrice| currency}}</strong>
+                    </li>
+                    <li class="order-summary">
+                        <strong class="text-muted">Total</strong>
+                        <strong>{{order.total | currency}}</strong>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</ng-container>

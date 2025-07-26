@@ -24,10 +24,6 @@ export class CheckoutComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private accountService: AccountService,
-    private checkoutService: CheckoutService,
-    private toastr: ToastrService,
-    private basketService: BasketService,
-    private router : Router 
   ) {}
   ngOnInit(): void {
     this.createCheckoutForm();
@@ -68,35 +64,4 @@ export class CheckoutComponent implements OnInit {
       },
     });
   }
-
-  submiteOrder = async () => {
-    const basket = await this.basketService.getCurrentBasketValue();
-
-    // Extract form group values
-    const deliveryForm = this.checkoutForm.get('deliveryForm')?.value;
-    const addressForm = this.checkoutForm.get('addressFrom')?.value;
-
-    // Defensive: ensure required fields exist
-    if (!basket || !deliveryForm?.deliveryMethod) {
-      console.error('Missing basketId or delivery method');
-      return;
-    }
-
-    const order: IOrderToCreate = {
-      basketId: basket.id,
-      deliveryMethodId: Number(deliveryForm.deliveryMethod),
-      shipToAddress: addressForm,
-    };
-
-    this.checkoutService.submiteOrder(order).subscribe({
-      next: () => 
-        {
-          this.basketService.deleteBasket(basket);
-          const navigationExtras : NavigationExtras = {state: order}
-          this.router.navigate(['checkout/success'], navigationExtras)
-          this.toastr.success('Create order successfully')l
-        },
-      error: (err) => console.log(err),
-    });
-  };
 }
