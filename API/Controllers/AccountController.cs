@@ -1,5 +1,3 @@
-using System.Security.Claims;
-using System.Text.Json;
 using API.Dtos;
 using API.Errors;
 using API.Extensions;

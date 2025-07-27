@@ -33,7 +33,7 @@ export const routes: Routes = [
     path:'orders' , loadChildren: () => OrdersModule , data:{breadcrumb:'Orders'}
    },
    {
-    path:'account', canActivate:[AuthGuard] ,loadChildren: () => AccountModule , data:{breadcrumb: {skip : true}}
+    path:'account' ,loadChildren: () => AccountModule , data:{breadcrumb: {skip : true}}
    },
    {
     path:"checkout" , 
