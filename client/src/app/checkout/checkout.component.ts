@@ -24,10 +24,12 @@ export class CheckoutComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private accountService: AccountService,
+    private basketService : BasketService
   ) {}
   ngOnInit(): void {
     this.createCheckoutForm();
     this.getAddressFormValue();
+    this.getDeliveryMethodValue();
     this.addressForm = this.checkoutForm.get('addressFrom') as FormGroup;
   }
 
@@ -63,5 +65,13 @@ export class CheckoutComponent implements OnInit {
         console.log(error);
       },
     });
+  }
+
+  getDeliveryMethodValue(){
+    // ถ้ามี delivery mathod ให้ดึงมาใช้เลย
+    const basket = this.basketService.getCurrentBasketValue();
+    if(basket?.deliveryMethodId !== null){
+      this.checkoutForm.get('deliveryForm')?.get('deliveryMethod')?.patchValue(basket?.deliveryMethodId?.toString())
+    }
   }
 }
