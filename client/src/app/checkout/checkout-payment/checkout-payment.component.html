@@ -23,7 +23,8 @@
     <button class=" btn btn-outline-primary" matButton matStepperPrevious>
         <i class=" fa fa-angle-left">Back to Review</i>
     </button>
-    <button class=" btn btn-primary gap-x-2" (click)="submiteOrder()">
+    <button [disabled]="loading" class=" btn btn-primary gap-x-2" (click)="submiteOrder()">
         Submite Order <i class="fa fa-angle-right"></i>
+        <i *ngIf="loading" class="fa fa-spinner fa-spin"></i>
     </button>
 </div>

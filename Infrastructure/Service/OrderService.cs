@@ -9,10 +9,12 @@ namespace Infrastructure.Service
     {
         private readonly IBasketRepository _basketRepo;
         private readonly IUnitOfWork _unitOfWork;
-        public OrderService( IBasketRepository basketRepo , IUnitOfWork unitOfWork)
+        private readonly IPaymentService _paymentService;
+        public OrderService( IBasketRepository basketRepo , IUnitOfWork unitOfWork , IPaymentService paymentService)
         {
            _unitOfWork = unitOfWork;
             _basketRepo = basketRepo;
+            _paymentService = paymentService; 
         }
         public async Task<Order> CreateOrderAsync(string buyerEmail, int deliveryMethodId, string basketId, Address shippingAddress)
         {
@@ -35,8 +37,20 @@ namespace Infrastructure.Service
             // calculate subtotal
             var subtotal = items.Sum(i => i.Quantity * i.Price);
 
+            // check existing order ?
+            var spec = new  OrderByPaymentIntentIdWithItemsSepcification(basket.PaymentIntendId);
+            var existingOrder =  await _unitOfWork.Repository<Order>().GetEntityWithSpec(spec);
+
+            // if have existing order
+            if(existingOrder !=  null)
+            {
+                _unitOfWork.Repository<Order>().Delete(existingOrder);
+                // update PaymetIntent
+                await _paymentService.CreateOrUpdatePaymentIntent(basket.PaymentIntendId);
+            }
+
             // create order
-            var order = new Order(buyerEmail , shippingAddress ,deliveryMethod , items , subtotal);
+            var order = new Order(buyerEmail , shippingAddress ,deliveryMethod , items , subtotal,basket.PaymentIntendId);
             // this just tracking to save to db
             _unitOfWork.Repository<Order>().Add(order);
 
@@ -44,8 +58,8 @@ namespace Infrastructure.Service
             var result = await _unitOfWork.Complete();
             if(result <= 0) return null;
 
-            // delete Basket
-            await _basketRepo.DeleteBasketAsync(basketId);
+            // delete Basket แต่ไม่ใช้เพราะถ้า payment fail และลบ payment ใหม่จะไม่เจอ basket ละ error
+            // await _basketRepo.DeleteBasketAsync(basketId);
             
             // return order
             return order;

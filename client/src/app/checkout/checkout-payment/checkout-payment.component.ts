@@ -43,7 +43,7 @@ export class CheckoutPaymentComponent implements AfterViewInit, OnDestroy {
     private toastr: ToastrService,
     private basketService: BasketService,
     private router: Router
-  ) {}
+  ) { }
   ngOnDestroy(): void {
     this.cardNumber.destroy();
     this.cardExpire.destroy();
@@ -80,34 +80,44 @@ export class CheckoutPaymentComponent implements AfterViewInit, OnDestroy {
       this.cardError = null;
     }
   }
+
   async submiteOrder() {
     this.loading = true;
     const basket = this.basketService.getCurrentBasketValue();
     if (!basket) throw new Error('cannot get basket');
-    const createdOrder = await this.createOrder(basket);
-    console.log(' basket.clientSecret' ,  basket.clientSecret)
-    this.stripe
+    try {
+      // because createOrder() return promise so it will wait until next steps
+      const createdOrder = await this.createOrder(basket);
+      // make request to strpie
+      const paymentResult = await this.confrimPaymentWithStripe(basket);
+      console.log(paymentResult);
+      if (paymentResult.paymentIntent) {
+        // line under this have to process after payment success from stripe
+        this.basketService.deleteBasket(basket);
+        const navigationExtras: NavigationExtras = { state: createdOrder };
+        this.router.navigate(['checkout/success'], navigationExtras)
+      } else {
+        this.toastr.error(paymentResult.error.message);
+      }
+      this.loading = false;
+    } catch (error) {
+      console.log(error); 
+      this.loading = false;
+    }
+  }
+
+  private async confrimPaymentWithStripe(basket: IBasket) {
+    return this.stripe
       .confirmCardPayment(
-        basket.clientSecret, 
-      {
-        payment_method: {
-          card: this.cardNumber,
-          billing_details: {
-            name: this.checkoutForm.get('paymentForm')?.get('nameOnCard')?.value,
+        basket.clientSecret,
+        {
+          payment_method: {
+            card: this.cardNumber,
+            billing_details: {
+              name: this.checkoutForm.get('paymentForm')?.get('nameOnCard')?.value,
+            },
           },
-        },
-      })
-      .then((result: any) => {
-        console.log(result);
-        if (result.paymentIntent) {
-          // line under this have to process after payment success from stripe
-          this.basketService.deleteBasket(basket);
-          const navigationExtras: NavigationExtras = {state: createdOrder};
-          this.router.navigate(['checkout/success'] , navigationExtras) 
-        }else{
-          this.toastr.error('Payment error');
-        }
-      });
+        })
   }
 
   private async createOrder(basket: IBasket) {
@@ -122,6 +132,6 @@ export class CheckoutPaymentComponent implements AfterViewInit, OnDestroy {
       shipToAddress: address,
     } as IOrderToCreate;
     console.log(createOrder);
-    return firstValueFrom(this.checkoutService.submiteOrder(createOrder));
+    return this.checkoutService.submiteOrder(createOrder).toPromise();
   }
 }

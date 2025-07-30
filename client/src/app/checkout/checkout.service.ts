@@ -5,6 +5,7 @@ import { map } from 'rxjs';
 import { IDeliveryMethod } from '../shared/models/deliveryMethod';
 import { IOrder, IOrderToCreate } from '../shared/models/order';
 import { FormGroup } from '@angular/forms';
+import { IAddress } from '../shared/models/address';
 
 @Injectable({
   providedIn: 'root'
@@ -31,8 +32,4 @@ export class CheckoutService {
     )
   }
 
-  // createOrder(checkoutForm : FormGroup): IOrderToCreate{
-  //   var basketId = localStorage.getItem('basket_id');
-  //   var res = 
-  // }
 }

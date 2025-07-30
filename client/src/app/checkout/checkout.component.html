@@ -2,19 +2,19 @@
     
     <div class="row mx-5">
         <div class="col-8">
-            <mat-vertical-stepper [linear]="true" #stepper [animationDuration]="'1000'">
-                <mat-step [label]="'Address'" [stepControl]="checkoutForm.get('addressFrom')?.value"
+            <mat-vertical-stepper  [linear]="true" #stepper [animationDuration]="'1000'" >
+                <mat-step [label]="'Address'" [stepControl]="addressForm"
                 [errorMessage]="'Address is required.'">
-                    <app-checkout-address [form]="addressForm"></app-checkout-address>
+                    <app-checkout-address [checkoutForm]="checkoutForm"></app-checkout-address>
                 </mat-step>
                 <mat-step [label]="'Delivery'" [stepControl]="checkoutForm.get('deliveryForm')!     " 
-                [errorMessage]="'Shippng is required.'" [optional]="'isOptional'">
+                [errorMessage]="'Shippng is required.'" >
                     <app-checkout-delivery [checkoutForm]="checkoutForm"></app-checkout-delivery>
                 </mat-step>
-                <mat-step [label]="'Review'">
+                <mat-step [label]="'Review'" >
                     <app-checkout-review [appStepper]="stepper"></app-checkout-review>
                 </mat-step>
-                <mat-step [label]="'Payment'">
+                <mat-step [label]="'Payment'" >
                     <app-checkout-payment [checkoutForm]="checkoutForm"></app-checkout-payment>
                 </mat-step>
             </mat-vertical-stepper>
