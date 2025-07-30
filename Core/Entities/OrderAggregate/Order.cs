@@ -7,13 +7,14 @@ namespace Core.Entities.OrderAggregate
             
         }
         public Order(string buyerEmail , Address shipToAddress , DeliveryMethod deliveryMethod , 
-        IReadOnlyList<OrderItem> orderItems ,decimal subtotal)
+        IReadOnlyList<OrderItem> orderItems ,decimal subtotal , string paymentIntenId)
         {
             BuyerEmail = buyerEmail;
             ShipToAddress = shipToAddress;
             DeliveryMethod = deliveryMethod;
             OrderItems = orderItems;
             Subtotal = subtotal; 
+            PaymentIntenId = paymentIntenId;
         }
         public string BuyerEmail {get; set;}
         public DateTimeOffset OrderDate {get; set;} = DateTimeOffset.Now;
