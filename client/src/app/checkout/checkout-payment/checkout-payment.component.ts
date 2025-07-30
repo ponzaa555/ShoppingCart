@@ -38,6 +38,13 @@ export class CheckoutPaymentComponent implements AfterViewInit, OnDestroy {
   cardError: any;
   cardHandler = this.onChange.bind(this);
   loading = false;
+
+  // Card Validation
+  cardNumberValid = false;
+  cardExpiryValid = false;
+  cardCvcValid = false;
+
+
   constructor(
     private checkoutService: CheckoutService,
     private toastr: ToastrService,
@@ -73,11 +80,22 @@ export class CheckoutPaymentComponent implements AfterViewInit, OnDestroy {
   }
 
   // Get error from stripe
-  onChange({ error }: any) {
-    if (error) {
-      this.cardError = error.message;
+  onChange(event: any) {
+    if ( event.error) {
+      this.cardError = event.error   .message;
     } else {
       this.cardError = null;
+    }
+    switch (event.elementType){
+      case 'cardNumber':
+        this.cardNumberValid = event.complete;
+        break;
+      case 'cardExpiry':
+        this.cardExpiryValid = event.complete;
+        break;
+      case 'cardCvc':
+        this.cardCvcValid = event.complete;
+        break;
     }
   }
 
