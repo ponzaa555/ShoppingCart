@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { PagginHeaderComponent } from './components/paggin-header/paggin-header.component';
-import {  PaginationComponent, PaginationModule } from 'ngx-bootstrap/pagination';
+import {  PaginationModule } from 'ngx-bootstrap/pagination';
 import {PagerComponent} from"./components/pager/pager.component";
 import { CarouselModule } from 'ngx-bootstrap/carousel';
 import { OrderTotalsComponent } from './components/order-totals/order-totals.component';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import {MatStepperModule} from '@angular/material/stepper';
 import { BasketSummaryComponent } from './components/basket-summary/basket-summary.component';
@@ -27,6 +27,7 @@ import { TextInputFormComponent } from './components/text-input-form/text-input-
     MatStepperModule,
     RouterModule,
     MatButtonModule,
+    FormsModule
   ],
   exports:[
     PaginationModule,
@@ -40,7 +41,8 @@ import { TextInputFormComponent } from './components/text-input-form/text-input-
     MatStepperModule,
     BasketSummaryComponent,
     MatButtonModule,
-    TextInputFormComponent
+    TextInputFormComponent,
+    FormsModule
   ],
 })
 export class SharedModule { }

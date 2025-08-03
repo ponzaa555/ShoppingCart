@@ -1,6 +1,7 @@
 
 using API.Dtos;
 using API.Errors;
+using API.Helpers;
 using AutoMapper;
 using Core.Entities;
 using Core.Interfaces;
@@ -31,6 +32,7 @@ namespace API.Controllers
             _productTypeRepo = productTypeRepo; 
             _mapper = mapper;
         }
+        [Cached(600)]
         [HttpGet]
         public async Task<ActionResult<BasePaginationDto<ProductToReturnDto>>> GetProducts(
             string? sort , [FromQuery] int? brandId , [FromQuery] int? typeId ,[FromQuery] string? search ,
@@ -43,6 +45,8 @@ namespace API.Controllers
             
             return Ok(data);
         }
+
+        [Cached(600)]
         [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
@@ -57,11 +61,13 @@ namespace API.Controllers
             }
             return _mapper.Map<Product , ProductToReturnDto>(product);
         }
+        [Cached(600)]
         [HttpGet("brands")]
         public async Task<ActionResult<IReadOnlyList<ProductBrand>>>  GetProductBrands()
         {
             return Ok(await _productBandRepo.ListAllAsync());
         }
+        [Cached(600)]
          [HttpGet("types")]
         public async Task<ActionResult<IReadOnlyList<ProductBrand>>>  GetProductTypes()
         {
