@@ -7,6 +7,7 @@ using StackExchange.Redis;
 using Infrastructure.Identity;
 using Microsoft.AspNetCore.Identity;
 using Core.Entities.Identity;
+using Microsoft.Extensions.FileProviders;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -88,7 +89,18 @@ app.UseAuthentication();
 app.UseAuthorization();
 // ถ้า endPoint ไหนไม่มีจะผ่าน middlewar และ Re generate response ที่ Controller Path
 app.UseStatusCodePagesWithReExecute("/error/{0}");
+
 app.UseStaticFiles();
+// Take care of static image
+app.UseStaticFiles(new StaticFileOptions
+{
+    FileProvider = new PhysicalFileProvider(
+        Path.Combine(Directory.GetCurrentDirectory() , "Contnet")
+     ),
+     RequestPath = "/content"
+});
+
 app.MapControllers();
+app.MapFallbackToController("Index","Fallback");
 app.Run();
 
