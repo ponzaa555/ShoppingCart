@@ -12,12 +12,13 @@ namespace API.Controllers
     {
         private readonly IPaymentService _paymentService;
         // this for stripe to skip authorize
-        private const string WhSercet = "whsec_2c8eba9d0a325a6841ab2895c4f62c503216e01f1a7d28633cd3b7faf54501cf";
+        private readonly string _WhSercet ;
         private readonly ILogger<IPaymentService> _logger;
-        public PaymentController(IPaymentService paymentService , ILogger<IPaymentService> logger)
+        public PaymentController(IPaymentService paymentService , ILogger<IPaymentService> logger , IConfiguration config)
         {
             _paymentService = paymentService;
             _logger = logger;
+            _WhSercet = config.GetSection("StripeSettings:WhSecret").Value;
         }
 
         [Authorize]
@@ -40,7 +41,7 @@ namespace API.Controllers
             var json =  await new StreamReader(HttpContext.Request.Body).ReadToEndAsync();
 
             // To confrim this from stripe
-            var stripeEvent = EventUtility.ConstructEvent(json , Request.Headers["Stripe-Signature"],WhSercet);
+            var stripeEvent = EventUtility.ConstructEvent(json , Request.Headers["Stripe-Signature"],_WhSercet);
 
             PaymentIntent paymentIntent ;
             Order order;

@@ -11,6 +11,27 @@ using Microsoft.Extensions.FileProviders;
 
 
 var builder = WebApplication.CreateBuilder(args);
+// check run on production or dev
+if(builder.Environment.IsDevelopment())
+{
+    Console.WriteLine("============== Runing On DEV Mode ==============");
+     builder.Services.AddDbContext<StoreContext>( options => {
+        options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection"));
+    });
+    builder.Services.AddDbContext<AppIdentityDbContext>(options => {
+        options.UseSqlite(builder.Configuration.GetConnectionString("IdentityConnection"));
+    });
+}
+else
+{
+    Console.WriteLine("============== Runing On Producton Mode ==============");
+     builder.Services.AddDbContext<StoreContext>( options => {
+        options.UseMySql(builder.Configuration.GetConnectionString("DefaultConnection") , ServerVersion.AutoDetect(builder.Configuration.GetConnectionString("DefaultConnection")));
+    });
+    builder.Services.AddDbContext<AppIdentityDbContext>(options => {
+        options.UseMySql(builder.Configuration.GetConnectionString("IdentityConnection") , ServerVersion.AutoDetect(builder.Configuration.GetConnectionString("IdentityConnection")));
+    });
+}
 
 // Add services to the container.
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -19,12 +40,6 @@ var builder = WebApplication.CreateBuilder(args);
     builder.WebHost.UseUrls("https://localhost:7153", "http://localhost:5153");
     builder.Services.AddEndpointsApiExplorer();
     builder.Services.AddControllers();
-    builder.Services.AddDbContext<StoreContext>( options => {
-        options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection"));
-    });
-    builder.Services.AddDbContext<AppIdentityDbContext>(options => {
-        options.UseSqlite(builder.Configuration.GetConnectionString("IdentityConnection"));
-    });
     builder.Services.AddSingleton<IConnectionMultiplexer>(c => {
         var configuration = ConfigurationOptions.Parse(builder.Configuration.GetConnectionString("Redis"), true);
         return ConnectionMultiplexer.Connect(configuration);  
@@ -72,6 +87,7 @@ using (var scope = app.Services.CreateScope())
     }
 }
 
+
 // Configure the HTTP request pipeline.
 
 
@@ -95,9 +111,15 @@ app.UseStaticFiles();
 app.UseStaticFiles(new StaticFileOptions
 {
     FileProvider = new PhysicalFileProvider(
-        Path.Combine(Directory.GetCurrentDirectory() , "Contnet")
+        Path.Combine(Directory.GetCurrentDirectory() , "Content")
      ),
      RequestPath = "/content"
+});
+app.UseStaticFiles(new StaticFileOptions
+{
+    FileProvider = new PhysicalFileProvider(
+        Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "browser")),
+    RequestPath = ""
 });
 
 app.MapControllers();
