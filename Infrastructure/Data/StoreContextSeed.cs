@@ -13,11 +13,13 @@ namespace Infrastructure.Data
     {
         public static async Task SeedAsync(StoreContext context , ILoggerFactory loggerFactory)
         {
+            var basePath = "Data/Seed";
             try
             {
                 if(!context.ProductBrands.Any())
                 {
-                    var brandsData = File.ReadAllText("../Infrastructure/Data/Seed/brands.json");
+                    var brandsPath = Path.Combine(basePath, "brands.json");
+                    var brandsData = File.ReadAllText(brandsPath);
                     var brands = JsonSerializer.Deserialize<List<ProductBrand>>(brandsData); 
                     foreach( var item in brands)
                     {
@@ -27,7 +29,8 @@ namespace Infrastructure.Data
                 }
                 if(!context.ProductTypes.Any())
                 {
-                    var typesData = File.ReadAllText("../Infrastructure/Data/Seed/types.json");
+                    var typesPath = Path.Combine(basePath,"types.json");
+                    var typesData = File.ReadAllText(typesPath);
                     var types = JsonSerializer.Deserialize<List<ProductType>>(typesData); 
                     foreach( var item in types)
                     {
@@ -37,7 +40,8 @@ namespace Infrastructure.Data
                 }
                 if(!context.Products.Any())
                 {
-                    var productsData = File.ReadAllText("../Infrastructure/Data/Seed/products.json");
+                    var productPath = Path.Combine(basePath, "products.json");
+                    var productsData = File.ReadAllText(productPath);
                     var products = JsonSerializer.Deserialize<List<Product>>(productsData); 
                     foreach( var item in products)
                     {
@@ -47,7 +51,8 @@ namespace Infrastructure.Data
                 }
                  if(!context.DeliveryMethods .Any())
                 {
-                    var deliveryMethodData = File.ReadAllText("../Infrastructure/Data/Seed/delivery.json");
+                    var deliveryPath = Path.Combine(basePath, "delivery.json");
+                    var deliveryMethodData = File.ReadAllText(deliveryPath);
                     var deliveryMethods = JsonSerializer.Deserialize<List<DeliveryMethod>>(deliveryMethodData); 
                     foreach( var item in deliveryMethods)
                     {

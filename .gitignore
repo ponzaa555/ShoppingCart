@@ -4,4 +4,4 @@
 **.rdb
 ShopingCart.db-shm
 ShopingCart.db-wal
-API/appsettings.json
+API/appsettings.*

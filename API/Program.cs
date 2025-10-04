@@ -37,7 +37,7 @@ else
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 {
 
-    builder.WebHost.UseUrls("https://localhost:7153", "http://localhost:5153");
+    builder.WebHost.UseUrls("http://0.0.0.0:5153");
     builder.Services.AddEndpointsApiExplorer();
     builder.Services.AddControllers();
     builder.Services.AddSingleton<IConnectionMultiplexer>(c => {
